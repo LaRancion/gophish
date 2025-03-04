@@ -32,11 +32,11 @@ var ErrCampaignComplete = errors.New("Event received on completed campaign")
 
 // TransparencyResponse is the JSON response provided when a third-party
 // makes a request to the transparency handler.
-type TransparencyResponse struct {
-	Server         string    `json:"server"`
-	ContactAddress string    `json:"contact_address"`
-	SendDate       time.Time `json:"send_date"`
-}
+//type TransparencyResponse struct {
+//	Server         string    `json:"server"`
+//	ContactAddress string    `json:"contact_address"`
+//	SendDate       time.Time `json:"send_date"`
+//}
 
 // TransparencySuffix (when appended to a valid result ID), will cause Gophish
 // to return a transparency response.
@@ -147,14 +147,14 @@ func (ps *PhishingServer) TrackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rs := ctx.Get(r, "result").(models.Result)
-	identifier := ctx.Get(r, "Identifier").(string)
+	//identifier := ctx.Get(r, "Identifier").(string)
 	d := ctx.Get(r, "details").(models.EventDetails)
 
 	// Check for a transparency request
-	if strings.HasSuffix(identifier, TransparencySuffix) {
-		ps.TransparencyHandler(w, r)
-		return
-	}
+	//if strings.HasSuffix(identifier, TransparencySuffix) {
+	//	ps.TransparencyHandler(w, r)
+	//	return
+	//}
 
 	err = rs.HandleEmailOpened(d)
 	if err != nil {
@@ -181,14 +181,14 @@ func (ps *PhishingServer) ReportHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	rs := ctx.Get(r, "result").(models.Result)
-	identifier := ctx.Get(r, "Identifier").(string)
+	//identifier := ctx.Get(r, "Identifier").(string)
 	d := ctx.Get(r, "details").(models.EventDetails)
 
 	// Check for a transparency request
-	if strings.HasSuffix(identifier, TransparencySuffix) {
-		ps.TransparencyHandler(w, r)
-		return
-	}
+	//if strings.HasSuffix(identifier, TransparencySuffix) {
+	//	ps.TransparencyHandler(w, r)
+	//	return
+	//}
 
 	err = rs.HandleEmailReport(d)
 	if err != nil {
@@ -209,7 +209,7 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 		customNotFound(w, r)
 		return
 	}
-	w.Header().Set("X-Server", config.ServerName) // Useful for checking if this is a GoPhish server (e.g. for campaign reporting plugins)
+	//w.Header().Set("X-Server", config.ServerName) // Useful for checking if this is a GoPhish server (e.g. for campaign reporting plugins)
 	var ptx models.PhishingTemplateContext
 	// Check for a preview
 	if preview, ok := ctx.Get(r, "result").(models.EmailRequest); ok {
@@ -229,15 +229,15 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rs := ctx.Get(r, "result").(models.Result)
-	identifier := ctx.Get(r, "Identifier").(string)
+	//identifier := ctx.Get(r, "Identifier").(string)
 	c := ctx.Get(r, "campaign").(models.Campaign)
 	d := ctx.Get(r, "details").(models.EventDetails)
 
 	// Check for a transparency request
-	if strings.HasSuffix(identifier, TransparencySuffix) {
-		ps.TransparencyHandler(w, r)
-		return
-	}
+	//if strings.HasSuffix(identifier, TransparencySuffix) {
+	//	ps.TransparencyHandler(w, r)
+	//	return
+	//}
 
 	p, err := models.GetPage(c.PageId, c.UserId)
 	if err != nil {
@@ -300,15 +300,15 @@ func (ps *PhishingServer) RobotsHandler(w http.ResponseWriter, r *http.Request) 
 
 // TransparencyHandler returns a TransparencyResponse for the provided result
 // and campaign.
-func (ps *PhishingServer) TransparencyHandler(w http.ResponseWriter, r *http.Request) {
-	rs := ctx.Get(r, "result").(models.Result)
-	tr := &TransparencyResponse{
-		Server:         config.ServerName,
-		SendDate:       rs.SendDate,
-		ContactAddress: ps.contactAddress,
-	}
-	api.JSONResponse(w, tr, http.StatusOK)
-}
+//func (ps *PhishingServer) TransparencyHandler(w http.ResponseWriter, r *http.Request) {
+//	rs := ctx.Get(r, "result").(models.Result)
+//	tr := &TransparencyResponse{
+//		Server:         config.ServerName,
+//		SendDate:       rs.SendDate,
+//		ContactAddress: ps.contactAddress,
+//	}
+//	api.JSONResponse(w, tr, http.StatusOK)
+//}
 
 // setupContext handles some of the administrative work around receiving a new
 // request, such as checking the result ID, the campaign, etc.
