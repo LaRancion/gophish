@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "mail_logs" (
     "user_id" integer,
     "send_date" datetime,
     "send_attempt" integer,
-    "r_id" varchar(255),
+    "resource_id" varchar(255),
     "processing" boolean);
 
 -- +goose Down

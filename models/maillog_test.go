@@ -19,7 +19,7 @@ import (
 func (s *ModelsSuite) emailFromFirstMailLog(campaign Campaign, ch *check.C) *email.Email {
 	result := campaign.Results[0]
 	m := &MailLog{}
-	err := db.Where("r_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
+	err := db.Where("resource_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
 		Find(m).Error
 	ch.Assert(err, check.Equals, nil)
 
@@ -67,7 +67,7 @@ func (s *ModelsSuite) TestMailLogBackoff(ch *check.C) {
 	campaign := s.createCampaign(ch)
 	result := campaign.Results[0]
 	m := &MailLog{}
-	err := db.Where("r_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
+	err := db.Where("resource_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
 		Find(m).Error
 	ch.Assert(err, check.Equals, nil)
 	ch.Assert(m.SendAttempt, check.Equals, 0)
@@ -109,7 +109,7 @@ func (s *ModelsSuite) TestMailLogError(ch *check.C) {
 	campaign := s.createCampaign(ch)
 	result := campaign.Results[0]
 	m := &MailLog{}
-	err := db.Where("r_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
+	err := db.Where("resource_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
 		Find(m).Error
 	ch.Assert(err, check.Equals, nil)
 	ch.Assert(m.ResourceId, check.Equals, result.ResourceId)
@@ -155,7 +155,7 @@ func (s *ModelsSuite) TestMailLogSuccess(ch *check.C) {
 	campaign := s.createCampaign(ch)
 	result := campaign.Results[0]
 	m := &MailLog{}
-	err := db.Where("r_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
+	err := db.Where("resource_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
 		Find(m).Error
 	ch.Assert(err, check.Equals, nil)
 	ch.Assert(m.ResourceId, check.Equals, result.ResourceId)
@@ -203,7 +203,7 @@ func (s *ModelsSuite) TestGenerateMailLog(ch *check.C) {
 	ch.Assert(err, check.Equals, nil)
 
 	m := MailLog{}
-	err = db.Where("r_id=?", result.ResourceId).Find(&m).Error
+	err = db.Where("resource_id=?", result.ResourceId).Find(&m).Error
 	ch.Assert(err, check.Equals, nil)
 	ch.Assert(m.ResourceId, check.Equals, result.ResourceId)
 	ch.Assert(m.CampaignId, check.Equals, campaign.Id)
@@ -230,7 +230,7 @@ func (s *ModelsSuite) TestMailLogGetSmtpFrom(ch *check.C) {
 	result := campaign.Results[0]
 
 	m := &MailLog{}
-	err := db.Where("r_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
+	err := db.Where("resource_id=? AND campaign_id=?", result.ResourceId, campaign.Id).
 		Find(m).Error
 	ch.Assert(err, check.Equals, nil)
 

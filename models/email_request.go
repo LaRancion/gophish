@@ -93,7 +93,7 @@ func PostEmailRequest(s *EmailRequest) error {
 // parameter.
 func GetEmailRequestByResultId(id string) (EmailRequest, error) {
 	s := EmailRequest{}
-	err := db.Table("email_requests").Where("r_id=?", id).First(&s).Error
+	err := db.Table("email_requests").Where("resource_id=?", id).First(&s).Error
 	return s, err
 }
 

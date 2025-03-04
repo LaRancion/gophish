@@ -193,7 +193,7 @@ func (r *Result) GenerateId(tx *gorm.DB) error {
 			return err
 		}
 		r.ResourceId = identifier
-		err = tx.Table("results").Where("r_id=?", r.ResourceId).First(&Result{}).Error
+		err = tx.Table("results").Where("resource_id=?", r.ResourceId).First(&Result{}).Error
 		if err == gorm.ErrRecordNotFound {
 			break
 		}
@@ -205,6 +205,6 @@ func (r *Result) GenerateId(tx *gorm.DB) error {
 // given the ResultId
 func GetResult(identifier string) (Result, error) {
 	r := Result{}
-	err := db.Where("r_id=?", identifier).First(&r).Error
+	err := db.Where("resource_id=?", identifier).First(&r).Error
 	return r, err
 }
